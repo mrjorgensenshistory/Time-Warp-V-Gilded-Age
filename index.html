@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time Warp V - Building the Railroad</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    background: #0a0a1a;
+    color: white;
+    font-family: 'Arial Black', 'Helvetica Neue', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+}
+
+.title-screen {
+    text-align: center;
+    padding: 3vh 2vw;
+    max-width: 1200px;
+    width: 100%;
+}
+
+h1 {
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    color: #00ff00;
+    text-shadow: 0 0 30px #00ff0040;
+    margin-bottom: 0.5vh;
+    letter-spacing: 3px;
+}
+h2 {
+    font-size: clamp(1rem, 3vw, 2rem);
+    color: #ffd700;
+    margin-bottom: 3vh;
+    font-weight: normal;
+}
+.subtitle {
+    color: #aaa;
+    font-family: Arial, sans-serif;
+    font-size: clamp(0.8rem, 1.5vw, 1.1rem);
+    margin-bottom: 4vh;
+    line-height: 1.6;
+}
+.subtitle em { color: #ff4444; font-style: normal; font-weight: bold; }
+
+.characters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2vw;
+    padding: 0 2vw;
+    margin-bottom: 4vh;
+    max-width: 1100px;
+}
+
+.card {
+    background: rgba(16, 16, 32, 0.8);
+    border: 3px solid #333;
+    border-radius: 12px;
+    padding: 2vh 1.5vw;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.card:hover .play-btn { opacity: 1; transform: translateY(0); }
+
+.card.kearney { border-color: #27AE60; }
+.card.kearney:hover { box-shadow: 0 10px 30px #27AE6040; }
+.card.casement { border-color: #2980B9; }
+.card.casement:hover { box-shadow: 0 10px 30px #2980B940; }
+.card.gould { border-color: #1DB954; }
+.card.gould:hover { box-shadow: 0 10px 30px #1DB95440; }
+.card.redcloud { border-color: #C0392B; }
+.card.redcloud:hover { box-shadow: 0 10px 30px #C0392B40; }
+
+.card-name {
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    margin-bottom: 0.5vh;
+}
+.card.kearney .card-name { color: #27AE60; }
+.card.casement .card-name { color: #2980B9; }
+.card.gould .card-name { color: #1DB954; }
+.card.redcloud .card-name { color: #C0392B; }
+
+.card-role {
+    font-family: Arial, sans-serif;
+    font-size: clamp(0.7rem, 1.2vw, 0.9rem);
+    color: #999;
+    margin-bottom: 1.5vh;
+}
+.card-desc {
+    font-family: Arial, sans-serif;
+    font-size: clamp(0.7rem, 1.1vw, 0.85rem);
+    color: #ccc;
+    line-height: 1.5;
+    margin-bottom: 2vh;
+}
+
+.play-btn {
+    display: inline-block;
+    padding: 1.2vh 3vw;
+    border-radius: 8px;
+    font-family: 'Arial Black', sans-serif;
+    font-size: clamp(0.8rem, 1.3vw, 1rem);
+    color: #111;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.2s;
+    opacity: 0.8;
+    transform: translateY(5px);
+}
+.card.kearney .play-btn { background: #27AE60; }
+.card.casement .play-btn { background: #2980B9; }
+.card.gould .play-btn { background: #1DB954; }
+.card.redcloud .play-btn { background: #C0392B; }
+
+.play-btn:hover { filter: brightness(1.2); }
+
+.rules {
+    max-width: 800px;
+    margin: 2vh auto;
+    padding: 2vh 3vw;
+    text-align: left;
+    font-family: Arial, sans-serif;
+    font-size: clamp(0.75rem, 1.2vw, 0.95rem);
+    color: #888;
+    line-height: 1.8;
+}
+.rules strong { color: #ffd700; }
+.rules .warn { color: #ff4444; }
+
+.fullscreen-hint {
+    color: #555;
+    font-size: 0.8rem;
+    font-family: Arial, sans-serif;
+    margin-top: 2vh;
+}
+</style>
+</head>
+<body>
+
+<div class="title-screen">
+    <h1>TIME WARP V</h1>
+    <h2>BUILDING THE RAILROAD</h2>
+    <p class="subtitle">
+        A Choose-Your-Own-Adventure Game<br>
+        Choose a character. Make decisions. The correct choice is always what REALLY happened.<br>
+        <em>Choose wrong? Start over. From the beginning.</em>
+    </p>
+
+    <div class="characters">
+        <div class="card kearney" onclick="window.location.href='kearney.html'">
+            <div class="card-name">DENNIS KEARNEY</div>
+            <div class="card-role">Irish Immigrant</div>
+            <div class="card-desc">Arrived with nothing. Became the voice of the working class. Fought for the people others forgot.</div>
+            <span class="play-btn">PLAY</span>
+        </div>
+
+        <div class="card casement" onclick="window.location.href='casement.html'">
+            <div class="card-name">JACK CASEMENT</div>
+            <div class="card-role">Construction Boss</div>
+            <div class="card-desc">5'4" tall. The toughest general you never heard of. Built the railroad with bare hands and iron will.</div>
+            <span class="play-btn">PLAY</span>
+        </div>
+
+        <div class="card gould" onclick="window.location.href='gould.html'">
+            <div class="card-name">JAY GOULD</div>
+            <div class="card-role">The Goblin of Wall Street</div>
+            <div class="card-desc">The most hated man in America. Betrayed everyone. And he didn't care.</div>
+            <span class="play-btn">PLAY</span>
+        </div>
+
+        <div class="card redcloud" onclick="window.location.href='redcloud.html'">
+            <div class="card-name">RED CLOUD</div>
+            <div class="card-role">Lakota War Chief</div>
+            <div class="card-desc">The only Native leader who won a war against the United States. Then fought 30 more years with words.</div>
+            <span class="play-btn">PLAY</span>
+        </div>
+    </div>
+
+    <div class="rules">
+        <strong>HOW TO PLAY:</strong><br>
+        1. Pick a character and click PLAY<br>
+        2. Read each scene carefully<br>
+        3. When you reach a decision, choose what YOU think really happened<br>
+        4. <span class="warn">Choose wrong? GAME OVER. Back to the beginning. Every time.</span><br>
+        5. Choose right? The adventure continues<br>
+        6. Fill out your Player's Guide as you go<br>
+        7. <strong>Complete all 4 characters</strong> to see every side of the railroad story
+    </div>
+
+    <p class="fullscreen-hint">Press F for fullscreen | Works on any device</p>
+</div>
+
+<script>
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'f' || e.key === 'F') {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+        } else {
+            document.exitFullscreen();
+        }
+    }
+});
+</script>
+</body>
+</html>
