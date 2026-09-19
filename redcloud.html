@@ -348,7 +348,7 @@ function goToSlide(id) {
     if (!id) return;
     // "HOME" sends back to the character select hub
     if (id === 'HOME') {
-        window.location.href = 'index.html';
+        window.location.href = 'index.html?back=1';
         return;
     }
     const slide = SLIDES.find(s => s.id === id);
