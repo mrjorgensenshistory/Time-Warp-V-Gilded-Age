@@ -456,7 +456,7 @@ function goToSlide(id) {
     _bl.forEach(function(btn){
         var _tg = SLIDES.find(function(s){return s.id===btn.target;});
         var _wrong = _tg && _tg.type==="gameover";
-        html += '<button class="btn" data-correct="'+((_isDec && !_wrong)?"1":"0")+'" onclick="goToSlide(\''+btn.target+'\')">'+btn.text+'</button>';
+        html += '<button class="btn" disabled data-correct="'+((_isDec && !_wrong)?"1":"0")+'" onclick="goToSlide(\''+btn.target+'\')">'+btn.text+'</button>';
     });
     html += '</div>';
 
@@ -473,11 +473,11 @@ function goToSlide(id) {
         // INTRO: show everything at once — no slow reveal
         textLines.forEach(line => line.classList.add('revealed'));
         if (gifEl) gifEl.classList.add('revealed');
-        if (btnsEl) btnsEl.classList.add('revealed');
+        if (btnsEl) { btnsEl.classList.add('revealed'); btnsEl.querySelectorAll('.btn').forEach(function(b){ b.disabled = false; }); }
     } else {
         // ALL OTHER SLIDES: line-by-line reveal with suspense
-        const lineDelay = 2500;
-        const btnExtraDelay = slide.type === 'decision' ? 3000 : 2000;
+        const BTN_REVEAL = 7000; // answers appear 7s after the slide loads
+        const lineDelay = Math.min(2500, Math.floor(5500 / Math.max(textLines.length, 1)));
 
         textLines.forEach((line, idx) => {
             setTimeout(() => line.classList.add('revealed'), (idx + 1) * lineDelay);
@@ -489,19 +489,19 @@ function goToSlide(id) {
             setTimeout(() => gifEl.classList.add('revealed'), gifDelay);
         }
 
-        // Reveal buttons AFTER all text + extra delay
-        const totalTextTime = (textLines.length + 1) * lineDelay;
+        // Reveal buttons at a fixed time after the slide loads
                 setTimeout(() => {
             if (btnsEl) {
                 btnsEl.classList.add("revealed");
+                btnsEl.querySelectorAll(".btn").forEach(function(b){ b.disabled = false; });
                 if (slide.type === "decision" && Math.random() < 0.5) {
                     var _all = btnsEl.querySelectorAll(".btn");
                     var _cb = _all[Math.floor(Math.random()*_all.length)];
-                    if (_cb) { _cb.style.opacity="0"; _cb.style.pointerEvents="none"; _cb.style.transition="opacity 0.9s ease";
-                        setTimeout(function(){ _cb.style.opacity="1"; _cb.style.pointerEvents="auto"; }, 4000); }
+                    if (_cb) { _cb.disabled = true; _cb.style.opacity="0"; _cb.style.pointerEvents="none"; _cb.style.transition="opacity 0.9s ease";
+                        setTimeout(function(){ _cb.disabled = false; _cb.style.opacity="1"; _cb.style.pointerEvents="auto"; }, 4000); }
                 }
             }
-        }, totalTextTime + btnExtraDelay);
+        }, BTN_REVEAL);
     }
 
     // Trigger animation
